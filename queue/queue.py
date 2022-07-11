@@ -12,7 +12,7 @@ class Queue:
         """Adds a new item to the end of the queue.
 
         Args:
-            item (Any): A item that we want to add in the queue.
+            item (Any): An item that we want to add in the queue.
         """
         
         self.item_list.append(item)
