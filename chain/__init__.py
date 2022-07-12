@@ -1,2 +1,2 @@
-from .node import Node
+from .node import Node, NodeForDoubleChain
 from .chain import Chain
