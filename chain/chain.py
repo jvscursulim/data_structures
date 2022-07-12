@@ -4,32 +4,29 @@ from chain import Node
 class Chain:
     """Chain class"""
     
-    def __init__(self) -> None:
+    def __init__(self, circular: bool = False, double_chain: bool = False) -> None:
         
         self.nodes_list = []
+        self.circular = circular
+        self.double_chain = double_chain
         
-    def add_node(self, node: Node) -> None:
+    def add_node(self, node) -> None:
         """Inserts a node in the Chain.
 
         Args:
             node (Node): A node that we want to add to the chain.
-
-        Raises:
-            TypeError: If the input is not a node.
         """
         
-        if isinstance(node, Node):
-        
-            if self.is_chain_empty():
+        if self.is_chain_empty():
                 
-                self.nodes_list.append(node)
-            else:
-                
-                node.next_node_address = self.nodes_list[0].address
-                self.nodes_list.insert(0, node)
+            self.nodes_list.append(node)
         else:
-            
-            raise TypeError("The input is not Node type!")
+                
+            node.next_node_address = self.nodes_list[0].address
+            self.nodes_list.insert(0, node)
+            if self.circular:
+                    
+                self.nodes_list[-1].next_node_address = self.nodes_list[0].address
         
     def delete_chain(self) -> None:
         """Deletes the chain."""
@@ -63,10 +60,20 @@ class Chain:
                 
                 if index == 0:
                     
-                    self.nodes_list[1].next_node_address = None
+                    if self.circular:
+                        
+                        self.nodes_list[-1].next_node_address = self.nodes_list[1].address
+                    else:
+                        
+                        self.nodes_list[1].next_node_address = None
                 elif index == len(self.nodes_list) - 1:
                     
-                    self.nodes_list[index - 1].next_node_address = None
+                    if self.circular:
+                        
+                        self.nodes_list[index - 1].next_node_address = self.nodes_list[0].address
+                    else:
+                        
+                        self.nodes_list[index - 1].next_node_address = None
                 else:
                     
                     self.nodes_list[index - 1].next_node_address = self.nodes_list[index + 1].address
